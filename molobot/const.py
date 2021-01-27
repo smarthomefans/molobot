@@ -19,6 +19,6 @@ TOKEN_KEY_NAME = 'slavertoken'
 CLIENT_STATUS_UNBINDED = "unbinded"
 CLIENT_STATUS_BINDED = "binded"
 
-CONFIG_FILE_NAME = "molo_bot_config.yaml"
+CONFIG_FILE_NAME = "molo_bot_config_x.yaml"
 
 TCP_CONNECTION_ACTIVATE_TIME = 60
