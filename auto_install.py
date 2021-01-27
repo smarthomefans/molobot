@@ -37,7 +37,7 @@ def uninstall_old(path):
 def download_file():
     global start_time
     print("Downloading file...")
-    curl = 'curl --show-error --retry 5 https://codeload.github.com/haoctopus/molobot/zip/master >> molobot-master.zip'
+    curl = 'curl --show-error --retry 5 https://codeload.github.com/smarthomefans/molobot/zip/master >> molobot-master.zip'
     os.system(curl)
 
 
@@ -81,7 +81,6 @@ def delete_file():
             shutil.rmtree(item)
         except Exception:
             pass
-        try:
             os.remove(item)
         except Exception:
             pass
@@ -104,5 +103,5 @@ if __name__ == '__main__':
     print("Successfully installed.")
     print("configuration.yaml has backed up to configuration.yaml.bak")
     print("For any questions, please contact us:")
-    print("  - Email:   octopus201806@gmail.com")
+    print("  - Email:   yaming1106@gmail.com")
     print("  - QQGroup: 598514359")
