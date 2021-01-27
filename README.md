@@ -17,14 +17,13 @@ return self._phone_sign
 ...
 ```
 
-## 安装MoloBot
 
 ### 一键安装
 
 >在终端直接执行下面命令一键安装molobot:
 	
 ```shell
-python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py" -s -N)
+python <(curl "https://raw.githubusercontent.com/smarthomefans/molobot/master/auto_install.py" -s -N)
 ```
 	
 >等待提示安装成功后手动重启Home Assistant即可。
@@ -33,7 +32,7 @@ python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_i
 
 ### 手动安装
 
-- [molobot组件](https://github.com/haoctopus/molobot)
+- [molobot组件](https://github.com/smarthomefans/molobot)
 
 >>1、下载`molobot`文件夹，保存在`<homeassistant配置目录>/custom_components/`目录中，若`custom_components`目录不存在则自行创建。
 
@@ -137,9 +136,9 @@ __注意，由于天猫精灵本身不支持自定义别名，在绑定成功后
 
 ### 相关链接
 
-平台网站：<https://www.molo.cn>
+平台网站：<https://smarthomefans.jtsh.top/>
 
-molobot组件：<https://github.com/haoctopus/molobot>
+molobot组件：<https://github.com/smarthomefans/molobot>
 
 ### 联系我们
 
@@ -179,7 +178,7 @@ return self._phone_sign
 If you are Linux-based user, run the command below to install molobot automatically:
 
 ```shell
-python <(curl "https://raw.githubusercontent.com/haoctopus/molobot/master/auto_install.py" -s -N)
+python <(curl "https://raw.githubusercontent.com/smarthomefans/molobot/master/auto_install.py" -s -N)
 ```
 
 Wait untill installation success, and restart your Home Assistant.
@@ -188,7 +187,7 @@ If this not working, please install molobot manually according to the next secti
 
 **【Installation】**
 
-- [molobot component](https://github.com/haoctopus/molobot)
+- [molobot component](https://github.com/smarthomefans/molobot)
 
 Download `molobot` folder and put it under `homeassistant configuration directory/custom_components/`. If `custom_components` doesn't exist, create one.
 
@@ -230,9 +229,9 @@ Currently supported attributes: brightness, color, switch, temperature, humidity
 
 **【Reference link】**
 
-Platform link：<https://www.molo.cn>
+Platform link：<https://smarthomefans.jtsh.top/>
 
-molobot component：<https://github.com/haoctopus/molobot>
+molobot component：<https://github.com/smarthomefans/molobot>
 
 **【Contact us】**
 
