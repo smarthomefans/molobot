@@ -78,7 +78,7 @@ def delete_file():
     delete_list = ['auto_install.py', 'molobot-master.zip', 'molo_install_temp/']
     for item in delete_list:
         try:
-            shutil.rmtree(item)
+            shutil.rmtree(item, ignore_errors=True)
         except Exception:
             pass
             os.remove(item)
