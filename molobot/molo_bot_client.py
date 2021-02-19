@@ -30,6 +30,7 @@ class MoloBotClient(asyncore.dispatcher):
     tunnel['rport'] = 0
     tunnel['lhost'] = MOLO_CONFIGS.get_config_object()['ha']['host']
     tunnel['lport'] = MOLO_CONFIGS.get_config_object()['ha']['port']
+    black_domains = ['weather', 'group', 'persistent_notification', 'person', 'sun']
 
     client_id = ''
     client_token = ''
@@ -52,6 +53,7 @@ class MoloBotClient(asyncore.dispatcher):
         self._sync_config = False
         self.clear()
         self.init_func_bind_map()
+        self.last_entity_ids = []
 
     def handle_connect(self):
         """When connected, this method will be call."""
@@ -100,6 +102,9 @@ class MoloBotClient(asyncore.dispatcher):
         self._phone_sign = hashlib.sha1(hkey).hexdigest()
         return self._phone_sign
 
+    def _get_domain(self, entity_id):
+        return entity_id.split(".")[0]
+
     def sync_device(self, force=False, interval=180):
         now = time.time()
         if (not force) and (now - self._last_report_device < interval):
@@ -111,9 +116,31 @@ class MoloBotClient(asyncore.dispatcher):
             return None
 
         devicelist = MOLO_CLIENT_APP.hass_context.states.async_all()
-        jlist = json.dumps(
-            devicelist, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
-        if not self.client_token or not jlist:
+        usefull_entity = []
+        entity_ids = []
+
+        for dinfo in devicelist:
+            entity_id = dinfo['entity_id']
+            domain = self._get_domain(entity_id)
+
+            if domain not in self.black_domains:
+                usefull_entity.append(dinfo)
+                entity_ids.append(entity_id)
+
+        if len(self.last_entity_ids) < 1:
+            diff = {}
+        else :
+            entity_ids.sort()
+            diff = set(entity_ids) - set(self.last_entity_ids)
+        updateTime =  True
+        if len(diff) > 0 :
+            updateTime = False
+            self.last_entity_ids = entity_ids
+            jlist = json.dumps(
+                usefull_entity, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
+        else:
+            jlist = ''
+        if not self.client_token or (not jlist and not updateTime):
             return None
 
         body = {
@@ -123,7 +150,8 @@ class MoloBotClient(asyncore.dispatcher):
                 'PhoneSign': self._phone_sign,
                 'Token': self.client_token,
                 'Action': "synclist",
-                'List': jlist.decode("UTF-8")
+                'List': jlist.decode("UTF-8"),
+                'updateTime': updateTime
             }
         }
         self.send_dict_pack(body)
