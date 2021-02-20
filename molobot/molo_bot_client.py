@@ -116,10 +116,12 @@ class MoloBotClient(asyncore.dispatcher):
             return None
 
         devicelist = MOLO_CLIENT_APP.hass_context.states.async_all()
+
         usefull_entity = []
         entity_ids = []
+        for sinfo in devicelist:
+            dinfo = sinfo.as_dict()
 
-        for dinfo in devicelist:
             entity_id = dinfo['entity_id']
             domain = self._get_domain(entity_id)
 
@@ -128,18 +130,23 @@ class MoloBotClient(asyncore.dispatcher):
                 entity_ids.append(entity_id)
 
         if len(self.last_entity_ids) < 1:
-            diff = {}
+            diff = {'1'}
         else :
             entity_ids.sort()
             diff = set(entity_ids) - set(self.last_entity_ids)
+            if len(diff) == 0:
+                diff = set(self.last_entity_ids) - set(entity_ids)
         updateTime =  True
+        LOGGER.info('=====diff:  %s', diff)
         if len(diff) > 0 :
             updateTime = False
             self.last_entity_ids = entity_ids
             jlist = json.dumps(
                 usefull_entity, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
+            jlist = jlist.decode("UTF-8")
+
         else:
-            jlist = ''
+            jlist = ""
         if not self.client_token or (not jlist and not updateTime):
             return None
 
@@ -150,7 +157,7 @@ class MoloBotClient(asyncore.dispatcher):
                 'PhoneSign': self._phone_sign,
                 'Token': self.client_token,
                 'Action': "synclist",
-                'List': jlist.decode("UTF-8"),
+                'List': jlist,
                 'updateTime': updateTime
             }
         }
