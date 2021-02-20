@@ -105,7 +105,7 @@ class MoloBotClient(asyncore.dispatcher):
     def _get_domain(self, entity_id):
         return entity_id.split(".")[0]
 
-    def sync_device(self, force=False, interval=180):
+    def sync_device(self, force=False, interval=180, force_diff=False):
         now = time.time()
         if (not force) and (now - self._last_report_device < interval):
             return None
@@ -129,7 +129,7 @@ class MoloBotClient(asyncore.dispatcher):
                 usefull_entity.append(dinfo)
                 entity_ids.append(entity_id)
 
-        if len(self.last_entity_ids) < 1:
+        if len(self.last_entity_ids) < 1 or force_diff:
             diff = {'1'}
         else :
             entity_ids.sort()
