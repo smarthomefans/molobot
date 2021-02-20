@@ -81,7 +81,7 @@ def setup(hass, config):
     def force_update(call):
         """Handle the service call."""
         MOLO_CLIENT_APP.molo_client.sync_device(True, 2)
-        hass.states.set("%s_service.%s" % DOMAIN, SERVICE_NAME , 'update time: %s' % time.time())
+        hass.states.set("%s_service.%s" % (DOMAIN, SERVICE_NAME) , 'update time: %s' % time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     hass.services.register(DOMAIN, SERVICE_NAME, force_update)
 
