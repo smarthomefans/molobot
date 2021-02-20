@@ -17,17 +17,18 @@ DOMAIN = 'molobot'
 SERVICE_NAME = 'force_update'
 NOTIFYID = 'molobotnotifyid'
 VERSION = 101
+is_init = False
+last_start_time = time.time()
+
 
 def setup(hass, config):
     """Set up molobot component."""
     LOGGER.info("Begin setup molobot!")
 
+
     # Load config mode from configuration.yaml.
     cfg = config[DOMAIN]
     cfg.update({"__version__": VERSION})
-
-    is_init = False
-    last_start_time = time.time()
 
     if 'mode' in cfg:
         MOLO_CONFIGS.load(cfg['mode'])
@@ -55,14 +56,17 @@ def setup(hass, config):
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_molobot)
         last_start_time = time.time()
 
+
+
     async def hass_started(event):
+        global is_init
         is_init = True
 
     async def on_state_changed(event):
         """Disable the dismiss button."""
-
         global is_init
         global last_start_time
+
         if MOLO_CLIENT_APP.molo_client:
             if is_init :
                 MOLO_CLIENT_APP.molo_client.sync_device(True, 2)
@@ -77,7 +81,7 @@ def setup(hass, config):
     def force_update(call):
         """Handle the service call."""
         MOLO_CLIENT_APP.molo_client.sync_device(True, 2)
-        hass.states.set("%s_service.%s" % DOMAIN, SERVICE_NAME, 'force_update', 'update time: %s' % time.time())
+        hass.states.set("%s_service.%s" % DOMAIN, SERVICE_NAME , 'update time: %s' % time.time())
 
     hass.services.register(DOMAIN, SERVICE_NAME, force_update)
 
@@ -96,6 +100,3 @@ def setup(hass, config):
     return True
 
 
-
-if __name__ == '__main__':
-    print()
