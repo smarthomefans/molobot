@@ -6,7 +6,7 @@ https://github.com/haoctopus/molobot
 """
 
 from homeassistant.const import (EVENT_HOMEASSISTANT_START,
-                                 EVENT_HOMEASSISTANT_STOP, EVENT_STATE_CHANGED, EVENT_HOMEASSISTANT_STARTED)
+                                 EVENT_HOMEASSISTANT_STOP, EVENT_STATE_CHANGED,)
 
 from .molo_client_config import MOLO_CONFIGS
 from .molo_client_app import MOLO_CLIENT_APP
@@ -88,7 +88,7 @@ def setup(hass, config):
         hass.components.persistent_notification.async_create(
             "Welcome to molobot!", "Molo Bot Infomation", "molo_bot_notify")
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, hass_started)
+    hass.bus.async_listen_once('homeassistant_started', hass_started)
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, start_molobot)
     hass.bus.async_listen(EVENT_STATE_CHANGED, on_state_changed)
 
