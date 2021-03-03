@@ -75,7 +75,28 @@ def setup(hass, config):
                 last_start_time = None
                 MOLO_CLIENT_APP.molo_client.sync_device(True, 2)
             elif not is_init or not last_start_time:
-                MOLO_CLIENT_APP.molo_client.sync_device(False, 60)
+                new_state = event.data.get("new_state")
+                if not new_state:
+                    return
+
+                entity_id = event.data.get("entity_id") or new_state.entity_id
+                domain = _get_domain(entity_id)
+
+                if domain == 'switch':
+                    # notify to tmall
+                    state = {
+                        'entity_id': entity_id,
+                        'state': new_state.state,
+                        'domain': domain
+
+                    }
+                    LOGGER.error(state)
+                    MOLO_CLIENT_APP.molo_client.sync_device_state(state)
+                else:
+                    MOLO_CLIENT_APP.molo_client.sync_device(False, 60)
+
+    def _get_domain(entity_id):
+        return entity_id.split(".")[0]
 
 
     def force_update(call):

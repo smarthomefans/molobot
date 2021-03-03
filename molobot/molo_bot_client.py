@@ -163,6 +163,26 @@ class MoloBotClient(asyncore.dispatcher):
         }
         self.send_dict_pack(body)
 
+    def sync_device_state(self, state):
+        if not self.client_token or not state:
+            return None
+
+        State = json.dumps(
+            state, sort_keys=True, cls=JSONEncoder).encode('UTF-8')
+        State = State.decode("UTF-8")
+
+        body = {
+            'Type': 'SyncDevice',
+            'Payload': {
+                "ClientId": self.client_id,
+                'PhoneSign': self._phone_sign,
+                'Token': self.client_token,
+                'Action': "synclist",
+                'State': State
+            }
+        }
+        self.send_dict_pack(body)
+
     def sync_config(self):
         self._phone_sign = self.get_phonesign()
         if self._phone_sign == "null":
