@@ -40,6 +40,10 @@ python <(curl "https://raw.githubusercontent.com/smarthomefans/molobot/master/au
 
 >>1、下载`molobot`文件夹，保存在`<homeassistant配置目录>/custom_components/`目录中，若`custom_components`目录不存在则自行创建。
 
+
+**用户名和密码仅用于在天猫添加设备授权使用，保持一致即可。不是天猫或者阿里其他平台的密码**  
+**用户名和密码仅用于在天猫添加设备授权使用，保持一致即可。不是天猫或者阿里其他平台的密码**  
+**用户名和密码仅用于在天猫添加设备授权使用，保持一致即可。不是天猫或者阿里其他平台的密码**  
 >>2、编辑`<homeassistant配置目录>/configuration.yaml`文件，添加如下配置
 ```yaml
 molobot:
