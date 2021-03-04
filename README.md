@@ -40,7 +40,7 @@ python <(curl "https://raw.githubusercontent.com/smarthomefans/molobot/master/au
 
 >>1、下载`molobot`文件夹，保存在`<homeassistant配置目录>/custom_components/`目录中，若`custom_components`目录不存在则自行创建。
 
->>2、编辑`<homeassistant配置目录>/custom_components/configuration.yaml`文件，添加如下配置
+>>2、编辑`<homeassistant配置目录>/configuration.yaml`文件，添加如下配置
 ```yaml
 molobot:
   phone: 131xxxxxxxx  # 天猫精灵绑定的手机号
